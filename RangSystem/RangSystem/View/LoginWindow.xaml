@@ -1,0 +1,35 @@
+﻿<Window x:Class="RangSystem.View.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RangSystem.View"
+        xmlns:local1="clr-namespace:RangSystem.ViewModel"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="301.6" Width="308" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <local1:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+    <Grid x:Name="LoginGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Вход в систему" VerticalAlignment="Center" FontSize="22"/>
+        <ComboBox x:Name="comboBoxInstitute" Margin="0" Grid.Row="1" SelectionChanged="comboBoxInstitute_SelectionChanged" FontSize="20" Background="White"/>
+        <ComboBox x:Name="comboBoxCathedra" Margin="0" Grid.Row="2" SelectionChanged="comboBoxCathedra_SelectionChanged" FontSize="20"/>
+        <ComboBox x:Name="comboBoxTeacher" Margin="0" Grid.Row="3" FontSize="20"/>
+        <TextBlock Grid.Row="4" Margin="0" Text="Пароль" Foreground="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}"
+        Visibility="{Binding Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=tbPassIn}" FontSize="20" />
+        <TextBox x:Name="tbPassIn" Margin="0" Grid.Row="4" TextWrapping="Wrap" FontSize="36" Background="{x:Null}" FontFamily="/RangSystem;component/Resources/#PassFont4Full"/>
+        <Button Content="Продолжить" Margin="0" Grid.Row="5" FontSize="20" Click="Button_Click"/>
+
+    </Grid>
+</Window>
