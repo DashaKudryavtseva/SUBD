@@ -71,6 +71,8 @@
     </Compile>
     <Compile Include="DataBase\DBCommunicate.cs" />
     <Compile Include="Data\Cathedra.cs" />
+    <Compile Include="Data\Discipline.cs" />
+    <Compile Include="Data\Group.cs" />
     <Compile Include="Data\Institute.cs" />
     <Compile Include="Data\Teacher.cs" />
     <Compile Include="ViewModel\TextInputToVisibilityConverter.cs" />

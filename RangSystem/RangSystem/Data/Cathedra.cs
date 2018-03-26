@@ -41,5 +41,6 @@ namespace RangSystem
             _id = id;
             _idInstitute = idInstitute;
         }
+        
     }
 }

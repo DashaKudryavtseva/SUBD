@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RangSystem"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="586.6">
+        Title="MainWindow" Height="350" Width="623.6">
     <Grid RenderTransformOrigin="0.504,0.518">
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="60" Width="Auto"/>
@@ -16,25 +16,41 @@
                 <Grid Background="#FFE5E5E5" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="50" Width="60"/>
+                        <ColumnDefinition MinWidth="50"/>
                         <ColumnDefinition/>
-                        <ColumnDefinition MinWidth="90" Width="90"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition MinWidth="90" Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Группа" Margin="5"/>
-                    <ComboBox Margin="5" Grid.Column="1"/>
-                    <Label Content="Дисциплина" Grid.Column="2" Margin="5"/>
-                    <ComboBox Grid.Column="3" Margin="5"/>
-                    <Button Content="Сохранить" Grid.Column="4" Margin="5"/>
+                    <ComboBox x:Name="CBDiscInControl" Margin="5" SelectionChanged="CBDiscInControl_SelectionChanged"/>
+                    <ComboBox x:Name="CBGroupInControl" Grid.Column="1" Margin="5"/>
+                    <Button Content="Сохранить" Grid.Column="2" Margin="5"/>
+                    <DataGrid Grid.Row="1" Grid.ColumnSpan="3" Height="273" Margin="5"/>
+                    <StackPanel Grid.RowSpan="2" Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+                        <Button Content="Button" Width="110" Height="25" Margin="5"/>
+                        <Button Content="Button" Width="110" Height="25" Margin="5"/>
+                        <Button Content="Button" Width="110" Height="25" Margin="5"/>
+                        <Button Content="Button" Width="110" Height="25" Margin="5"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Visibility="Hidden">
-                <Grid Background="#FFE5E5E5" Margin="5"/>
+                <Grid Background="#FFE5E5E5" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
+                </Grid>
             </TabItem>
         </TabControl>
 

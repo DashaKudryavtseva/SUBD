@@ -1,6 +1,8 @@
 ﻿using Npgsql;
+using RangSystem.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -45,7 +47,37 @@ namespace RangSystem.DataBase
             return instList;
         }
 
-       
+        internal static ObservableCollection<Group> GetGroupListToControl(int idDisc)
+        {
+            ObservableCollection<Group> groupList = new ObservableCollection<Group>();
+            try
+            {
+                NpgsqlConnection bd = new NpgsqlConnection(connectionString);
+                bd.Open();
+                NpgsqlCommand npgSqlCommand = new NpgsqlCommand($"SELECT * FROM get_groups_on_discipline('{idDisc}');", bd);
+
+                NpgsqlDataReader npgSqlDataReader = npgSqlCommand.ExecuteReader();
+
+                if (npgSqlDataReader.HasRows) //--если такой логин есть в бд 
+                {
+                    foreach (DbDataRecord dbDataRecord in npgSqlDataReader)
+                    {
+                        int idCathedra = dbDataRecord.GetInt32(0);
+                        int idDirection = dbDataRecord.GetInt32(1);
+                        int idGroup = dbDataRecord.GetInt32(2);
+                        int numCourse = dbDataRecord.GetInt32(3);
+                        string nameGroup = dbDataRecord.GetString(4);
+                        groupList.Add(new Group(idCathedra, idDirection, idGroup, numCourse, nameGroup));
+                    }
+                }
+                bd.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ex:" + ex.Message);
+            }
+            return groupList;
+        }
 
         internal static List<Cathedra> GetCathedraList()
         {
@@ -170,6 +202,36 @@ namespace RangSystem.DataBase
                 MessageBox.Show("ex:" + ex.Message);
             }
             return teacherList;
+        }
+
+        internal static ObservableCollection<Discipline> GetDisciplineList(int teachId)
+        {
+            ObservableCollection<Discipline> disciplineList = new ObservableCollection<Discipline>();
+            try
+            {
+                NpgsqlConnection bd = new NpgsqlConnection(connectionString);
+                bd.Open();
+                NpgsqlCommand npgSqlCommand = new NpgsqlCommand($"SELECT * FROM get_disciplines('{teachId}');", bd);
+
+                NpgsqlDataReader npgSqlDataReader = npgSqlCommand.ExecuteReader();
+
+                if (npgSqlDataReader.HasRows) //--если такой логин есть в бд 
+                {
+                    foreach (DbDataRecord dbDataRecord in npgSqlDataReader)
+                    {
+                        int idDiscipline = dbDataRecord.GetInt32(0);
+                        int duration = dbDataRecord.GetInt32(2);
+                        string nameDiscipline = dbDataRecord.GetString(1);
+                        disciplineList.Add(new Discipline(idDiscipline, nameDiscipline, duration));
+                    }
+                }
+                bd.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ex:" + ex.Message);
+            }
+            return disciplineList;
         }
     }
 }
