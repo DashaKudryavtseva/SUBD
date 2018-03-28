@@ -23,13 +23,21 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Вход в систему" VerticalAlignment="Center" FontSize="22"/>
-        <ComboBox x:Name="comboBoxInstitute" Margin="0" Grid.Row="1" SelectionChanged="comboBoxInstitute_SelectionChanged" FontSize="20" Background="White"/>
-        <ComboBox x:Name="comboBoxCathedra" Margin="0" Grid.Row="2" SelectionChanged="comboBoxCathedra_SelectionChanged" FontSize="20"/>
-        <ComboBox x:Name="comboBoxTeacher" Margin="0" Grid.Row="3" FontSize="20"/>
+        <ComboBox x:Name="comboBoxInstitute" Margin="0" Grid.Row="1" SelectionChanged="comboBoxInstitute_SelectionChanged" FontSize="20" BorderBrush="{x:Null}" Background="White"/>
+        <ComboBox x:Name="comboBoxCathedra" Margin="0" Grid.Row="2" SelectionChanged="comboBoxCathedra_SelectionChanged" FontSize="20" Background="White"/>
+        <ComboBox x:Name="comboBoxTeacher" Margin="0" Grid.Row="3" FontSize="20" BorderBrush="White">
+            <ComboBox.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightTextColorKey}}"/>
+            </ComboBox.Background>
+        </ComboBox>
         <TextBlock Grid.Row="4" Margin="0" Text="Пароль" Foreground="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}"
         Visibility="{Binding Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=tbPassIn}" FontSize="20" />
-        <TextBox x:Name="tbPassIn" Margin="0" Grid.Row="4" TextWrapping="Wrap" FontSize="36" Background="{x:Null}" FontFamily="/RangSystem;component/Resources/#PassFont4Full"/>
-        <Button Content="Продолжить" Margin="0" Grid.Row="5" FontSize="20" Click="Button_Click"/>
+        <TextBox x:Name="tbPassIn" Margin="0" Grid.Row="4" TextWrapping="Wrap" FontSize="36" FontFamily="/RangSystem;component/Resources/#PassFont4Full" Background="{x:Null}">
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
+            </TextBox.BorderBrush>
+        </TextBox>
+        <Button Content="Продолжить" Margin="0" Grid.Row="5" FontSize="20" Click="Button_Click" Background="#FF589546" Foreground="#FFFBFBFB"/>
 
     </Grid>
 </Window>

@@ -25,9 +25,16 @@
                         <ColumnDefinition MinWidth="90" Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <ComboBox x:Name="CBDiscInControl" Margin="5" SelectionChanged="CBDiscInControl_SelectionChanged"/>
-                    <ComboBox x:Name="CBGroupInControl" Grid.Column="1" Margin="5"/>
+                    <ComboBox x:Name="CBGroupInControl" Grid.Column="1" Margin="5" SelectionChanged="CBGroupInControl_SelectionChanged"/>
                     <Button Content="Сохранить" Grid.Column="2" Margin="5"/>
-                    <DataGrid Grid.Row="1" Grid.ColumnSpan="3" Height="273" Margin="5"/>
+                    
+                    <DataGrid x:Name="DataGridControls" ItemsSource="{Binding Items}" AutoGenerateColumns="False" Grid.Row="1" Grid.ColumnSpan="3" Height="273" Margin="5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Тип промежуточного контроля" Binding="{Binding TypeOfControl, Mode=TwoWay}"/>
+                            <DataGridTextColumn Header="Количество" Binding="{Binding NumTasks, Mode=TwoWay}"/>
+                            <DataGridTextColumn Header="Максимальный балл" Binding="{Binding MaxBall, Mode=TwoWay}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                     <StackPanel Grid.RowSpan="2" Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right">
                         <Button Content="Button" Width="110" Height="25" Margin="5"/>
                         <Button Content="Button" Width="110" Height="25" Margin="5"/>

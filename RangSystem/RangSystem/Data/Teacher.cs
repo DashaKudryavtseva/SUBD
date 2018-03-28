@@ -8,7 +8,7 @@ namespace RangSystem
 {
     public class Teacher
     {
-        //--Класс описывает сущность "Кафедра"
+        //--Класс описывает сущность "Преподаватель"
 
         private string _fio;
         public string FIO

@@ -71,10 +71,13 @@
     </Compile>
     <Compile Include="DataBase\DBCommunicate.cs" />
     <Compile Include="Data\Cathedra.cs" />
+    <Compile Include="Data\ControlsCollection.cs" />
     <Compile Include="Data\Discipline.cs" />
     <Compile Include="Data\Group.cs" />
     <Compile Include="Data\Institute.cs" />
+    <Compile Include="Data\IntermediateControl.cs" />
     <Compile Include="Data\Teacher.cs" />
+    <Compile Include="ViewModel\ControlViewModel.cs" />
     <Compile Include="ViewModel\TextInputToVisibilityConverter.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>

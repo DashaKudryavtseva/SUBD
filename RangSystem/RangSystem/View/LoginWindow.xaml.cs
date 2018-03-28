@@ -1,6 +1,7 @@
 ﻿using RangSystem.DataBase;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,12 +52,20 @@ namespace RangSystem.View
 
         private void comboBoxInstitute_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            comboBoxTeacher.Items.Clear();
             comboBoxCathedra.Items.Clear();
-            List<Cathedra> cathedras = new List<Cathedra>();
+            ObservableCollection<Cathedra> cathedras = new ObservableCollection<Cathedra>();
             cathedras = DBCommunicate.GetCathedraList(comboBoxInstitute.SelectedItem.ToString());
             foreach (var temp in cathedras)
             {
                 comboBoxCathedra.Items.Add(temp.Name);                          //Запись в выпадающий список
+            }
+            //--ToDo комьоьокс тичер заполнить в соответсвии с выбранным институтом
+            ObservableCollection<Teacher> teachers = new ObservableCollection<Teacher>();
+            teachers = DBCommunicate.GetTeacherListOnInst(comboBoxInstitute.SelectedItem.ToString());
+            foreach (var temp in teachers)
+            {
+                comboBoxTeacher.Items.Add(temp.FIO);                          //Запись в выпадающий список
             }
         }
 

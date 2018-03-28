@@ -1,5 +1,6 @@
 ﻿using RangSystem.Data;
 using RangSystem.DataBase;
+using RangSystem.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,9 +25,12 @@ namespace RangSystem
     public partial class MainWindow : Window
     {
         ObservableCollection<Discipline> disciplineList;
+        ObservableCollection<Group> groupList;
+        Teacher _teacher;
         public MainWindow(Teacher teacher)
         {
             InitializeComponent();
+            _teacher = teacher;
             disciplineList = DBCommunicate.GetDisciplineList(teacher.IdTeacher);
             foreach (var v in disciplineList)
             {
@@ -35,7 +39,7 @@ namespace RangSystem
             
 
         }
-
+        //заполнить список групп на основе выбранной дисциплины
         private void CBDiscInControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBGroupInControl.Items.Clear();
@@ -45,8 +49,25 @@ namespace RangSystem
             {
                 CBGroupInControl.Items.Add(temp.Name);                          //Запись в выпадающий список
             }
+
+            DisplayControlsTable();
         }
 
+        private void DisplayControlsTable()
+        {
+
+            if(CBDiscInControl.SelectedItem != null && CBGroupInControl.SelectedItem != null)
+            {
+                
+                ControlsCollection controlsCollection = new ControlsCollection(_teacher.IdTeacher, 
+                    GetIdDiscipline(CBDiscInControl.SelectedItem.ToString()),
+                    GetIdGroup(CBGroupInControl.SelectedItem.ToString()));
+                ControlViewModel controlViewModel = new ControlViewModel(controlsCollection.ControlList);
+                DataGridControls.DataContext = controlViewModel;
+            }
+        }
+
+        //получить Id дисциплины по ее названию
         private int GetIdDiscipline (string name)
         {
             foreach (var v in disciplineList)
@@ -55,6 +76,22 @@ namespace RangSystem
                     return v.ID;
             }
             return -1;
+        }
+        //получить id группы по ее названию
+        private int GetIdGroup(string name)
+        {
+            foreach (var v in groupList)
+            {
+                if (v.Name == name)
+                    return v.ID;
+            }
+            return -1;
+        }
+
+        private void CBGroupInControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            DisplayControlsTable();
         }
     }
 }
