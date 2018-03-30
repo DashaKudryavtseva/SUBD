@@ -46,6 +46,25 @@ namespace RangSystem.DataBase
             }
             return instList;
         }
+
+        internal static void UpdateControl(IntermediateControl control)
+        {
+            try
+            {
+                NpgsqlConnection bd = new NpgsqlConnection(connectionString);
+                bd.Open();
+
+                NpgsqlCommand npgSqlCommand = new NpgsqlCommand(
+                    $"SELECT update_intermediate_control('{control.Id}','{control.IdTeacher}','{control.IdDiscipline}','{control.IdGroup}','{control.TypeOfControl}','{control.NumTasks}','{control.MaxBall}');", bd);
+                npgSqlCommand.ExecuteNonQuery();
+                bd.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ex:" + ex.Message);
+            }
+        }
+
         //получить список групп в окно зааолнения пром.контроля
         internal static ObservableCollection<Group> GetGroupListToControl(int idDisc)
         {
@@ -273,7 +292,7 @@ namespace RangSystem.DataBase
             {
                 NpgsqlConnection bd = new NpgsqlConnection(connectionString);
                 bd.Open();
-                NpgsqlCommand npgSqlCommand = new NpgsqlCommand($"SELECT * FROM get_controls_on_disc_and_group('{teachId},{discId},{groupId}');", bd);
+                NpgsqlCommand npgSqlCommand = new NpgsqlCommand($"SELECT * FROM get_controls_on_disc_and_group('{teachId}','{discId}','{groupId}');", bd);
 
                 NpgsqlDataReader npgSqlDataReader = npgSqlCommand.ExecuteReader();
 

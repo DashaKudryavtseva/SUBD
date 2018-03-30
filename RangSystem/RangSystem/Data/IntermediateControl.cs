@@ -49,6 +49,10 @@ namespace RangSystem.Data
             {
                 return _typeOfControl;
             }
+            set
+            {
+                _typeOfControl = value;
+            }
         }
         private int _numTasks;
         public int NumTasks
@@ -56,6 +60,10 @@ namespace RangSystem.Data
             get
             {
                 return _numTasks;
+            }
+            set
+            {
+                _numTasks = value;
             }
         }
         private int _maxBall;
@@ -65,9 +73,13 @@ namespace RangSystem.Data
             {
                 return _maxBall;
             }
+            set
+            {
+                _maxBall = value;
+            }
         }
         public IntermediateControl(int id, int idDiscipline, int idTeacher, int idGroup, 
-            string typeOfControl, int numTasks, int maxBall)
+        string typeOfControl, int numTasks, int maxBall)
         {
             _id = id;
             _idDiscipline = idDiscipline;
@@ -76,7 +88,9 @@ namespace RangSystem.Data
             _typeOfControl = typeOfControl;
             _numTasks = numTasks;
             _maxBall = maxBall;
-
+            isEdit = false;
         }
+
+        public bool isEdit;
     }
 }

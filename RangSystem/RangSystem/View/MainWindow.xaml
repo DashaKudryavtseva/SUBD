@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RangSystem"
+        xmlns:coll="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="623.6">
+        Title="Учет" Height="350" Width="623.6">
     <Grid RenderTransformOrigin="0.504,0.518">
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="60" Width="Auto"/>
@@ -26,20 +28,26 @@
                     </Grid.ColumnDefinitions>
                     <ComboBox x:Name="CBDiscInControl" Margin="5" SelectionChanged="CBDiscInControl_SelectionChanged"/>
                     <ComboBox x:Name="CBGroupInControl" Grid.Column="1" Margin="5" SelectionChanged="CBGroupInControl_SelectionChanged"/>
-                    <Button Content="Сохранить" Grid.Column="2" Margin="5"/>
+                    <Button x:Name="btnControlSave" Content="Сохранить" Grid.Column="2" Margin="5" Click="btnControlSave_Click"/>
                     
-                    <DataGrid x:Name="DataGridControls" ItemsSource="{Binding Items}" AutoGenerateColumns="False" Grid.Row="1" Grid.ColumnSpan="3" Height="273" Margin="5">
+                    <DataGrid x:Name="DataGridControls" ItemsSource="{Binding Items}" AutoGenerateColumns="False" Grid.Row="1" Grid.ColumnSpan="3" Height="273" Margin="5" BeginningEdit="DataGridControls_BeginningEdit">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Тип промежуточного контроля" Binding="{Binding TypeOfControl, Mode=TwoWay}"/>
+                            <DataGridComboBoxColumn Header="Тип промежуточногyо контроля" SelectedItemBinding="{Binding TypeOfControl, Mode=TwoWay}" >
+                                <DataGridComboBoxColumn.ItemsSource>
+                                    <coll:ArrayList>
+                                        <sys:String>Контрольная работа</sys:String>
+                                        <sys:String>Лабораторная работа</sys:String>
+                                        <sys:String>Практическая работа</sys:String>
+                                    </coll:ArrayList>
+                                </DataGridComboBoxColumn.ItemsSource>
+                            </DataGridComboBoxColumn>
                             <DataGridTextColumn Header="Количество" Binding="{Binding NumTasks, Mode=TwoWay}"/>
                             <DataGridTextColumn Header="Максимальный балл" Binding="{Binding MaxBall, Mode=TwoWay}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Grid.RowSpan="2" Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right">
-                        <Button Content="Button" Width="110" Height="25" Margin="5"/>
-                        <Button Content="Button" Width="110" Height="25" Margin="5"/>
-                        <Button Content="Button" Width="110" Height="25" Margin="5"/>
-                        <Button Content="Button" Width="110" Height="25" Margin="5"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3">
+                        <Button Content="Добавить" Width="110" Height="25" Margin="5" Click="Button_Click"/>
+                        <Button Content="Удалить" Width="110" Height="25" Margin="5"/>
                     </StackPanel>
                 </Grid>
             </TabItem>

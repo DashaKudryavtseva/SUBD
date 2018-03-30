@@ -13,11 +13,24 @@ namespace RangSystem.Data
         private ObservableCollection<IntermediateControl> _controlList;
         public ObservableCollection<IntermediateControl> ControlList
         {
-            get;set;
+            get
+            {
+                return _controlList;
+            }
+
         }
         public ControlsCollection(int teachId, int discId, int groupId)
         {
             _controlList = DBCommunicate.GetIntermediateControlls(teachId, discId, groupId);
+        }
+
+        internal void AllUpdate()
+        {
+            foreach(var v in _controlList)
+            {
+                if (v.isEdit)
+                    DBCommunicate.UpdateControl(v);
+            }
         }
     }
 }

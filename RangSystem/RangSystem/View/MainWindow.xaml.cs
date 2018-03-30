@@ -26,6 +26,7 @@ namespace RangSystem
     {
         ObservableCollection<Discipline> disciplineList;
         ObservableCollection<Group> groupList;
+        ControlsCollection controlsCollection;
         Teacher _teacher;
         public MainWindow(Teacher teacher)
         {
@@ -42,10 +43,14 @@ namespace RangSystem
         //заполнить список групп на основе выбранной дисциплины
         private void CBDiscInControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (groupList != null)
+            {
+                groupList.Clear();
+            }
             CBGroupInControl.Items.Clear();
-            ObservableCollection<Group> groups = new ObservableCollection<Group>();
-            groups = DBCommunicate.GetGroupListToControl(GetIdDiscipline(CBDiscInControl.SelectedItem.ToString()));
-            foreach (var temp in groups)
+            //ObservableCollection<Group> groups = new ObservableCollection<Group>();
+            groupList = DBCommunicate.GetGroupListToControl(GetIdDiscipline(CBDiscInControl.SelectedItem.ToString()));
+            foreach (var temp in groupList)
             {
                 CBGroupInControl.Items.Add(temp.Name);                          //Запись в выпадающий список
             }
@@ -59,7 +64,7 @@ namespace RangSystem
             if(CBDiscInControl.SelectedItem != null && CBGroupInControl.SelectedItem != null)
             {
                 
-                ControlsCollection controlsCollection = new ControlsCollection(_teacher.IdTeacher, 
+                controlsCollection = new ControlsCollection(_teacher.IdTeacher, 
                     GetIdDiscipline(CBDiscInControl.SelectedItem.ToString()),
                     GetIdGroup(CBGroupInControl.SelectedItem.ToString()));
                 ControlViewModel controlViewModel = new ControlViewModel(controlsCollection.ControlList);
@@ -92,6 +97,24 @@ namespace RangSystem
         {
 
             DisplayControlsTable();
+        }
+
+        private void DataGridControls_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            //--помечает измененные экземпляры 
+            IntermediateControl editControl = DataGridControls.SelectedItem as IntermediateControl;
+            editControl.isEdit = true;
+        }
+        //--кнопка "сохранить контрол"
+        private void btnControlSave_Click(object sender, RoutedEventArgs e)
+        {
+            controlsCollection.AllUpdate();
+            MessageBox.Show("Данные успешно сохранены!");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
