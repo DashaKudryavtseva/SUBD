@@ -35,7 +35,7 @@ namespace RangSystem
             }
         }
 
-        public Cathedra(string name, int id, int idInstitute)
+        public Cathedra(int id, int idInstitute, string name)
         {
             _name = name;
             _id = id;

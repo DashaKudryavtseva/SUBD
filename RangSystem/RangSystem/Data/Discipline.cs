@@ -9,7 +9,7 @@ namespace RangSystem.Data
     class Discipline
     {
         private int _id;
-        public int ID
+        public int Id
         {
             get
             {
@@ -24,19 +24,13 @@ namespace RangSystem.Data
                 return _name;
             }
         }
-        private int _duration;
-        public int Duration
-        {
-            get
-            {
-                return _duration;
-            }
-        }
-        public Discipline(int id, string name, int duration)
+
+
+
+        public Discipline(int id, string name)
         {
             _id = id;
             _name = name;
-            _duration = duration;
         }
     }
 }

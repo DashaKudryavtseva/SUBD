@@ -9,7 +9,7 @@ namespace RangSystem.Data
     class Group
     {
         private int _id;
-        public int ID
+        public int Id
         {
             get
             {
@@ -17,19 +17,19 @@ namespace RangSystem.Data
             }
         }
         private int _idCathedra;
-        public int IDCathedra
+        public int IdCathedra
         {
             get
             {
                 return _idCathedra;
             }
         }
-        private int _idDirection;
-        public int IDDirection
+        private string _direction;
+        public string Direction
         {
             get
             {
-                return _idDirection;
+                return _direction;
             }
         }
         private int _numCourse;
@@ -48,11 +48,12 @@ namespace RangSystem.Data
                 return _name;
             }
         }
-        public Group(int id, int idCathedra, int idDirection, int numCourse, string name)
+
+        public Group(int id, int idCathedra, string direction, int numCourse, string name)
         {
             _id = id;
             _idCathedra = idCathedra;
-            _idDirection = idDirection;
+            _direction = direction;
             _numCourse = numCourse;
             _name = name;
 

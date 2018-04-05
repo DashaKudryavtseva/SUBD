@@ -1,5 +1,6 @@
 ﻿using RangSystem.Data;
 using RangSystem.DataBase;
+using RangSystem.View;
 using RangSystem.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace RangSystem
 
             DisplayControlsTable();
         }
-
+        //показать таблицу промежуточного контроля
         private void DisplayControlsTable()
         {
 
@@ -69,6 +70,7 @@ namespace RangSystem
                     GetIdGroup(CBGroupInControl.SelectedItem.ToString()));
                 ControlViewModel controlViewModel = new ControlViewModel(controlsCollection.ControlList);
                 DataGridControls.DataContext = controlViewModel;
+               
             }
         }
 
@@ -112,9 +114,13 @@ namespace RangSystem
             MessageBox.Show("Данные успешно сохранены!");
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddInControlButton_Click(object sender, RoutedEventArgs e)
         {
+            AddControlWindow addControlWindow = new AddControlWindow();
+            if(addControlWindow.ShowDialog() == true)
+            {
 
+            }
         }
     }
 }

@@ -4,20 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RangSystem
+namespace RangSystem.Data
 {
-    class Institute
+    class ControlTypes
     {
-        //--Класс описывает сущность "институт"
-
-        private string _name;
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
         private int _id;
         public int Id
         {
@@ -26,8 +16,16 @@ namespace RangSystem
                 return _id;
             }
         }
+        private string _name;
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+        }
 
-        public Institute(int id, string name)
+        public ControlTypes(int id, string name)
         {
             _name = name;
             _id = id;

@@ -26,12 +26,12 @@ namespace RangSystem
                 return _password;
             }
         }
-        private int _idTeacher;
-        public int IdTeacher
+        private int _id;
+        public int Id
         {
             get
             {
-                return _idTeacher;
+                return _id;
             }
         }
         private int _idCathedra;
@@ -42,23 +42,31 @@ namespace RangSystem
                 return _idCathedra;
             }
         }
-        private int _idDegree;
-        public int IdDegree
+        private string _degree;
+        public string Degree
         {
             get
             {
-                return _idDegree;
+                return _degree;
+            }
+        }
+        private bool _adminRights;
+        public bool AdminRights
+        {
+            get
+            {
+                return _adminRights;
             }
         }
 
-
-        public Teacher(int idCathedra, int idDegree, int idTeacher, string fio, string password)
+        public Teacher(int id, int idCathedra, string degree, string fio, string password, bool adminRights)
         {
             _fio = fio;
             _password = password;
-            _idTeacher = idTeacher;
-            _idDegree = idDegree;
+            _id = id;
+            _degree = degree;
             _idCathedra = idCathedra;
+            _adminRights = adminRights;
         }
     }
 }

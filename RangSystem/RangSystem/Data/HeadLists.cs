@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace RangSystem.Data
 {
-    class IntermediateControl
+    class HeadLists
     {
-        //--Класс описывает сущность "Промежуточный контроль"
-
         private int _id;
         public int Id
         {
@@ -26,35 +24,30 @@ namespace RangSystem.Data
                 return _idPlan;
             }
         }
-        private int _idType;
-        public int IdType
+        private int _idStudentRating;
+        public int IdStudentRating
         {
             get
             {
-                return _idType;
+                return _idStudentRating;
             }
         }
-        private int _maxBall;
-        public int MaxBall
+        private DateTime _finalDate;
+        public DateTime FinalDate
         {
             get
             {
-                return _maxBall;
+                return _finalDate;
             }
-            set
-            {
-                _maxBall = value;
-            }
-        }
-        public IntermediateControl(int id, int idPlan, int idType, int maxBall)
-        {
-            _id = id;
-            _idType = idType;
-            _idPlan = idPlan;
-            _maxBall = maxBall;
-            isEdit = false;
         }
 
-        public bool isEdit;
+        public HeadLists(int id, int idPlan, int idStudentRating, DateTime finalDate)
+        {
+            _id = id;
+            _idPlan = idPlan;
+            _idStudentRating = idStudentRating;
+            _finalDate = finalDate;
+        }
+
     }
 }
