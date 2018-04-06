@@ -33,7 +33,7 @@ namespace RangSystem
         {
             InitializeComponent();
             _teacher = teacher;
-            disciplineList = DBCommunicate.GetDisciplineList(teacher.IdTeacher);
+            disciplineList = DBCommunicate.GetDisciplineList(teacher.Id);
             foreach (var v in disciplineList)
             {
                 CBDiscInControl.Items.Add(v.Name);
@@ -41,7 +41,7 @@ namespace RangSystem
             
 
         }
-        //заполнить список групп на основе выбранной дисциплины
+        //заполнить список групп на основе выбранной дисциплины +
         private void CBDiscInControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (groupList != null)
@@ -50,7 +50,7 @@ namespace RangSystem
             }
             CBGroupInControl.Items.Clear();
             //ObservableCollection<Group> groups = new ObservableCollection<Group>();
-            groupList = DBCommunicate.GetGroupListToControl(GetIdDiscipline(CBDiscInControl.SelectedItem.ToString()));
+            groupList = DBCommunicate.GetGroupListToControl(GetIdDiscipline(CBDiscInControl.SelectedItem.ToString()), _teacher.Id);
             foreach (var temp in groupList)
             {
                 CBGroupInControl.Items.Add(temp.Name);                          //Запись в выпадающий список
@@ -65,7 +65,7 @@ namespace RangSystem
             if(CBDiscInControl.SelectedItem != null && CBGroupInControl.SelectedItem != null)
             {
                 
-                controlsCollection = new ControlsCollection(_teacher.IdTeacher, 
+                controlsCollection = new ControlsCollection(_teacher.Id, 
                     GetIdDiscipline(CBDiscInControl.SelectedItem.ToString()),
                     GetIdGroup(CBGroupInControl.SelectedItem.ToString()));
                 ControlViewModel controlViewModel = new ControlViewModel(controlsCollection.ControlList);
@@ -80,7 +80,7 @@ namespace RangSystem
             foreach (var v in disciplineList)
             {
                 if (v.Name == name)
-                    return v.ID;
+                    return v.Id;
             }
             return -1;
         }
@@ -90,7 +90,7 @@ namespace RangSystem
             foreach (var v in groupList)
             {
                 if (v.Name == name)
-                    return v.ID;
+                    return v.Id;
             }
             return -1;
         }

@@ -26,12 +26,12 @@ namespace RangSystem.Data
                 return _idPlan;
             }
         }
-        private int _idType;
-        public int IdType
+        private ControlTypes _type;
+        public ControlTypes Type
         {
             get
             {
-                return _idType;
+                return _type;
             }
         }
         private int _maxBall;
@@ -46,10 +46,10 @@ namespace RangSystem.Data
                 _maxBall = value;
             }
         }
-        public IntermediateControl(int id, int idPlan, int idType, int maxBall)
+        public IntermediateControl(int id, int idPlan, ControlTypes Type, int maxBall)
         {
             _id = id;
-            _idType = idType;
+            _type = Type;
             _idPlan = idPlan;
             _maxBall = maxBall;
             isEdit = false;

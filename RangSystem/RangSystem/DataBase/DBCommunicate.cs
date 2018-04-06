@@ -17,7 +17,7 @@ namespace RangSystem.DataBase
         private static string connectionString = Properties.Settings.Default.ConnectionString; //строка подсоединения к бд
         //--Получить список институтов 
       
-        //получить список институтов
+        //получить список институтов +
         internal static List<Institute> GetInstituteList()
         {
             List<Institute> instList = new List<Institute>();
@@ -35,7 +35,7 @@ namespace RangSystem.DataBase
                     {
                         int id = dbDataRecord.GetInt32(0);
                         string name = dbDataRecord.GetString(1);
-                        instList.Add(new Institute(name, id));
+                        instList.Add(new Institute(id, name));
                     }
                 }
                 bd.Close();
@@ -46,7 +46,7 @@ namespace RangSystem.DataBase
             }
             return instList;
         }
-
+        //обновление строки в промежуточном контроле +
         internal static void UpdateControl(IntermediateControl control)
         {
             try
@@ -55,7 +55,7 @@ namespace RangSystem.DataBase
                 bd.Open();
 
                 NpgsqlCommand npgSqlCommand = new NpgsqlCommand(
-                    $"SELECT update_intermediate_control('{control.Id}','{control.IdTeacher}','{control.IdDiscipline}','{control.IdGroup}','{control.TypeOfControl}','{control.NumTasks}','{control.MaxBall}');", bd);
+                    $"SELECT update_intermediate_control('{control.Id}','{control.Type.Name}','{control.MaxBall}');", bd);
                 npgSqlCommand.ExecuteNonQuery();
                 bd.Close();
             }
@@ -65,15 +65,15 @@ namespace RangSystem.DataBase
             }
         }
 
-        //получить список групп в окно зааолнения пром.контроля
-        internal static ObservableCollection<Group> GetGroupListToControl(int idDisc)
+        //получить список групп в окно заполнения пром.контроля +
+        internal static ObservableCollection<Group> GetGroupListToControl(int idDisc, int idTeach)
         {
             ObservableCollection<Group> groupList = new ObservableCollection<Group>();
             try
             {
                 NpgsqlConnection bd = new NpgsqlConnection(connectionString);
                 bd.Open();
-                NpgsqlCommand npgSqlCommand = new NpgsqlCommand($"SELECT * FROM get_groups_on_discipline('{idDisc}');", bd);
+                NpgsqlCommand npgSqlCommand = new NpgsqlCommand($"SELECT * FROM get_groups_on_discipline('{idDisc}','{idTeach}');", bd);
 
                 NpgsqlDataReader npgSqlDataReader = npgSqlCommand.ExecuteReader();
 
@@ -81,12 +81,13 @@ namespace RangSystem.DataBase
                 {
                     foreach (DbDataRecord dbDataRecord in npgSqlDataReader)
                     {
-                        int idCathedra = dbDataRecord.GetInt32(0);
-                        int idDirection = dbDataRecord.GetInt32(1);
-                        int idGroup = dbDataRecord.GetInt32(2);
+
+                        int id = dbDataRecord.GetInt32(0);
+                        int idCathedra = dbDataRecord.GetInt32(1);
+                        string direction = dbDataRecord.GetString(2);
                         int numCourse = dbDataRecord.GetInt32(3);
                         string nameGroup = dbDataRecord.GetString(4);
-                        groupList.Add(new Group(idCathedra, idDirection, idGroup, numCourse, nameGroup));
+                        groupList.Add(new Group(id, idCathedra, direction, numCourse, nameGroup));
                     }
                 }
                 bd.Close();
@@ -97,7 +98,7 @@ namespace RangSystem.DataBase
             }
             return groupList;
         }
-        //получить список преподавателей выбранного института
+        //получить список преподавателей выбранного института +
         internal static ObservableCollection<Teacher> GetTeacherListOnInst(string nameInst)
         {
             ObservableCollection<Teacher> teacherList = new ObservableCollection<Teacher>();
@@ -113,12 +114,13 @@ namespace RangSystem.DataBase
                 {
                     foreach (DbDataRecord dbDataRecord in npgSqlDataReader)
                     {
-                        int idCathedra = dbDataRecord.GetInt32(0);
-                        int idDegree = dbDataRecord.GetInt32(1);
-                        int idTeacher = dbDataRecord.GetInt32(2);
+                        int id = dbDataRecord.GetInt32(0);
+                        int idCathedra = dbDataRecord.GetInt32(1);
+                        string degree = dbDataRecord.GetString(2);
                         string fio = dbDataRecord.GetString(3);
                         string password = dbDataRecord.GetString(4);
-                        teacherList.Add(new Teacher(idCathedra, idDegree, idTeacher, fio, password));
+                        bool rights = dbDataRecord.GetBoolean(5);
+                        teacherList.Add(new Teacher(id, idCathedra, degree, fio, password, rights));
                     }
                 }
                 bd.Close();
@@ -129,7 +131,7 @@ namespace RangSystem.DataBase
             }
             return teacherList;
         }
-        //получить список кафедр
+        //получить список кафедр +
         internal static List<Cathedra> GetCathedraList()
         {
             List<Cathedra> cathedraList = new List<Cathedra>();
@@ -148,7 +150,7 @@ namespace RangSystem.DataBase
                         int id = dbDataRecord.GetInt32(0);
                         int idInstitute = dbDataRecord.GetInt32(1);
                         string name = dbDataRecord.GetString(2);
-                        cathedraList.Add(new Cathedra(name, id, idInstitute));
+                        cathedraList.Add(new Cathedra(id, idInstitute, name));
                     }
                 }
                 bd.Close();
@@ -159,7 +161,7 @@ namespace RangSystem.DataBase
             }
             return cathedraList;
         }
-        //получитьсписок кафедр выбранного института
+        //получить список кафедр выбранного института +
         internal static ObservableCollection<Cathedra> GetCathedraList(string nameInst)
         {
             ObservableCollection<Cathedra> cathedraList = new ObservableCollection<Cathedra>();
@@ -178,7 +180,7 @@ namespace RangSystem.DataBase
                         int id = dbDataRecord.GetInt32(0);
                         int idInstitute = dbDataRecord.GetInt32(1);
                         string name = dbDataRecord.GetString(2);
-                        cathedraList.Add(new Cathedra(name, id, idInstitute));
+                        cathedraList.Add(new Cathedra(id, idInstitute, name));
                     }
                 }
                 bd.Close();
@@ -190,7 +192,7 @@ namespace RangSystem.DataBase
             return cathedraList;
         }
 
-        //получить список преподавателей
+        //получить список преподавателей +
         internal static List<Teacher> GetTeacherList()
         {
             List<Teacher> teacherList = new List<Teacher>();
@@ -206,12 +208,13 @@ namespace RangSystem.DataBase
                 {
                     foreach (DbDataRecord dbDataRecord in npgSqlDataReader)
                     {
-                        int idCathedra = dbDataRecord.GetInt32(0);
-                        int idDegree = dbDataRecord.GetInt32(1);
-                        int idTeacher = dbDataRecord.GetInt32(2);
+                        int id = dbDataRecord.GetInt32(0);
+                        int idCathedra = dbDataRecord.GetInt32(1);
+                        string degree = dbDataRecord.GetString(2);
                         string fio = dbDataRecord.GetString(3);
                         string password = dbDataRecord.GetString(4);
-                        teacherList.Add(new Teacher(idCathedra, idDegree, idTeacher, fio, password));
+                        bool rights = dbDataRecord.GetBoolean(5);
+                        teacherList.Add(new Teacher(id, idCathedra, degree, fio, password, rights));
                     }
                 }
                 bd.Close();
@@ -222,7 +225,7 @@ namespace RangSystem.DataBase
             }
             return teacherList;
         }
-        //получить список учителей выбранной кафедры
+        //получить список учителей выбранной кафедры +
         internal static List<Teacher> GetTeacherList(string nameCath)
         {
             List<Teacher> teacherList = new List<Teacher>();
@@ -238,12 +241,14 @@ namespace RangSystem.DataBase
                 {
                     foreach (DbDataRecord dbDataRecord in npgSqlDataReader)
                     {
-                        int idCathedra = dbDataRecord.GetInt32(0);
-                        int idDegree = dbDataRecord.GetInt32(1);
-                        int idTeacher = dbDataRecord.GetInt32(2);
+
+                        int id = dbDataRecord.GetInt32(0);
+                        int idCathedra = dbDataRecord.GetInt32(1);
+                        string degree = dbDataRecord.GetString(2);
                         string fio = dbDataRecord.GetString(3);
                         string password = dbDataRecord.GetString(4);
-                        teacherList.Add(new Teacher(idCathedra, idDegree, idTeacher, fio, password));
+                        bool rights = dbDataRecord.GetBoolean(5);
+                        teacherList.Add(new Teacher(id, idCathedra, degree, fio, password, rights));
                     }
                 }
                 bd.Close();
@@ -254,7 +259,7 @@ namespace RangSystem.DataBase
             }
             return teacherList;
         }
-        //получить список дисциплин доступных преподавателю
+        //получить список дисциплин доступных преподавателю +
         internal static ObservableCollection<Discipline> GetDisciplineList(int teachId)
         {
             ObservableCollection<Discipline> disciplineList = new ObservableCollection<Discipline>();
@@ -271,9 +276,8 @@ namespace RangSystem.DataBase
                     foreach (DbDataRecord dbDataRecord in npgSqlDataReader)
                     {
                         int idDiscipline = dbDataRecord.GetInt32(0);
-                        int duration = dbDataRecord.GetInt32(2);
                         string nameDiscipline = dbDataRecord.GetString(1);
-                        disciplineList.Add(new Discipline(idDiscipline, nameDiscipline, duration));
+                        disciplineList.Add(new Discipline(idDiscipline, nameDiscipline));
                     }
                 }
                 bd.Close();
@@ -284,7 +288,7 @@ namespace RangSystem.DataBase
             }
             return disciplineList;
         }
-
+        //получить список промежуточных контролей +
         internal static ObservableCollection<IntermediateControl> GetIntermediateControlls(int teachId, int discId, int groupId)
         {
             ObservableCollection<IntermediateControl> controlList = new ObservableCollection<IntermediateControl>();
@@ -300,11 +304,14 @@ namespace RangSystem.DataBase
                 {
                     foreach (DbDataRecord dbDataRecord in npgSqlDataReader)
                     {
+                        
                         int id = dbDataRecord.GetInt32(0);
-                        string typeOfControl = dbDataRecord.GetString(1);
-                        int numTasks = dbDataRecord.GetInt32(2);
-                        int maxBall = dbDataRecord.GetInt32(3);
-                        controlList.Add(new IntermediateControl(id, discId, teachId, groupId, typeOfControl, numTasks, maxBall));
+                        int idPlan = dbDataRecord.GetInt32(1);
+                        int idType = dbDataRecord.GetInt32(2);
+                        string nametype = dbDataRecord.GetString(3);
+                        int maxBall = dbDataRecord.GetInt32(4);
+                        ControlTypes Type = new ControlTypes(idType, nametype);
+                        controlList.Add(new IntermediateControl(id, idPlan, Type, maxBall));
                     }
                 }
                 bd.Close();
